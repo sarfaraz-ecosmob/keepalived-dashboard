@@ -1,0 +1,16 @@
+import subprocess
+
+def get_vip_status(vip: str) -> str:
+    try:
+        output = subprocess.check_output(['ip', 'a'], text=True)
+        return "Present on this node" if vip in output else "Not present on this node"
+    except Exception as e:
+        return f"Error: {e}"
+
+def read_keepalived_config() -> str:
+    try:
+        with open("/etc/keepalived/keepalived.conf", "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "Keepalived config not found."
+
